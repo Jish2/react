@@ -112,6 +112,11 @@ export default function setupHighlighter(
   }
 
   function startInspectingHost(onlySuspenseNodes: boolean) {
+    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+      console.log('[react-devtools] backend startInspectingHost', {
+        onlySuspenseNodes,
+      });
+    }
     inspectOnlySuspenseNodes = onlySuspenseNodes;
     registerListenersOnWindow(window);
   }
@@ -132,6 +137,9 @@ export default function setupHighlighter(
   }
 
   function stopInspectingHost() {
+    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+      console.log('[react-devtools] backend stopInspectingHost');
+    }
     hideOverlay(agent);
     removeListenersOnWindow(window);
     iframesListeningTo.forEach(function (frame) {

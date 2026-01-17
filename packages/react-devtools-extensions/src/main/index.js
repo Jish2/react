@@ -96,6 +96,24 @@ function createBridge() {
     );
   });
 
+  bridge.addListener('toggleInspectHost', () => {
+    if (typeof __DEV__ !== 'undefined' && __DEV__) {
+      // eslint-disable-next-line no-console
+      console.log('[react-devtools] devtools page received toggleInspectHost');
+    }
+    const nextIsInspectingHost = !isInspectingHost;
+    isInspectingHost = nextIsInspectingHost;
+    if (nextIsInspectingHost) {
+      bridge.send('startInspectingHost', false);
+    } else {
+      bridge.send('stopInspectingHost');
+    }
+  });
+
+  bridge.addListener('stopInspectingHost', () => {
+    isInspectingHost = false;
+  });
+
   const sourcesPanel = chrome.devtools.panels.sources;
 
   const onBrowserElementSelectionChanged = () =>
@@ -608,6 +626,7 @@ let lastSubscribedBridgeListener = null;
 let store: Store = (null: $FlowFixMe);
 
 let profilingData = null;
+let isInspectingHost = false;
 
 let componentsPanel = null;
 let profilerPanel = null;

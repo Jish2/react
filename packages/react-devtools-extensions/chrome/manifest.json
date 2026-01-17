@@ -61,5 +61,14 @@
       ],
       "run_at": "document_start"
     }
-  ]
+  ],
+  "commands": {
+    "toggle-inspect-element": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "Toggle the React DevTools element selector"
+    }
+  }
 }

@@ -202,6 +202,7 @@ export type BackendEvents = {
   enableSuspenseTab: [],
   extensionBackendInitialized: [],
   fastRefreshScheduled: [],
+  toggleInspectHost: [],
   getSavedPreferences: [],
   inspectedElement: [InspectedElementPayload],
   inspectedScreen: [InspectedElementPayload],

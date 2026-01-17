@@ -26,6 +26,13 @@ export default function InspectHostNodesToggle({
     (isChecked: boolean) => {
       setIsInspecting(isChecked);
 
+      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+        console.log('[react-devtools] inspect toggle', {
+          isChecked,
+          onlySuspenseNodes: !!onlySuspenseNodes,
+        });
+      }
+
       if (isChecked) {
         logEvent({event_name: 'inspect-element-button-clicked'});
         bridge.send('startInspectingHost', !!onlySuspenseNodes);
@@ -42,6 +49,20 @@ export default function InspectHostNodesToggle({
     return () =>
       bridge.removeListener('stopInspectingHost', onStopInspectingHost);
   }, [bridge]);
+
+  useEffect(() => {
+    const onToggleInspectHost = () => {
+      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+        console.log('[react-devtools] toggleInspectHost event received');
+      }
+      handleChange(!isInspecting);
+    };
+
+    bridge.addListener('toggleInspectHost', onToggleInspectHost);
+    return () => {
+      bridge.removeListener('toggleInspectHost', onToggleInspectHost);
+    };
+  }, [bridge, handleChange, isInspecting]);
 
   return (
     <Toggle

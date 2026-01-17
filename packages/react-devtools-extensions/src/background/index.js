@@ -11,6 +11,7 @@ import {
   handleReactDevToolsHookMessage,
   handleFetchResourceContentScriptMessage,
 } from './messageHandlers';
+import {registerCommandHandlers} from './commands';
 
 /*
   {
@@ -195,6 +196,8 @@ chrome.runtime.onMessage.addListener((message, sender) => {
     }
   }
 });
+
+registerCommandHandlers(ports);
 
 chrome.tabs.onActivated.addListener(({tabId: activeTabId}) => {
   for (const registeredTabId in ports) {
